@@ -62,8 +62,7 @@ int main(int argc, char *argv[]){
     	printf("%u(0x%x) = %u(0x%x)\n",    nums[argc-2], nums[argc-2], 
            sum, sum);
 
-	free(nums);
-	free(files);	
+
 
 	return 0;
 

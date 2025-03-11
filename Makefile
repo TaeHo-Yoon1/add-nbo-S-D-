@@ -1,4 +1,4 @@
-TARGET=byte-order-test
+TARGET=sum-nbo
 CXXFLAGS=-g
 
 all: $(TARGET)

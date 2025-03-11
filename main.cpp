@@ -18,20 +18,30 @@ int main(int argc, char *argv[]){
 	if(argc < 3) return 1;
 
 	for(int i=0; i < argc - 1; i++){
-	
 		files[i] = fopen(argv[i+1], "rb");
 		if(!files[i]) return 1;
 
 	}
 	
 	for(int i = 0; i < argc - 1; i++){
-        	if(fread(&nums[i], sizeof(uint32_t), 1, files[i]) != 1){
-            		for(int j = 0; j <= i; j++){
-                		fclose(files[j]);
-          		  }
-            	return 1;
-        	}
-   	}	
+		fseek(files[i], 0, SEEK_END);
+		long size = ftell(files[i]);
+		if (size < 4) {
+			for(int j = 0; j <= i; j++){
+				fclose(files[j]);
+			}
+			return 1;
+		}
+		fseek(files[i], 0, SEEK_SET);
+
+		// 파일 읽기
+		if(fread(&nums[i], sizeof(uint32_t), 1, files[i]) != 1){
+			for(int j = 0; j <= i; j++){
+				fclose(files[j]);
+			}
+			return 1;
+		}
+	}
 
 
 	for(int i=0; i < argc -1; i++){
@@ -52,6 +62,9 @@ int main(int argc, char *argv[]){
     	printf("%u(0x%x) = %u(0x%x)\n",    nums[argc-2], nums[argc-2], 
            sum, sum);
 
-    	return 0;
+	free(nums);
+	free(files);	
+
+	return 0;
 
 }
